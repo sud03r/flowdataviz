@@ -80,9 +80,10 @@ def plotmany(list_measurements, location, dates, variables, l_axis=False, r_axis
     fig.tight_layout()
     return fig
     
-def display_statistics(list_measurements):
-    '''Display summary statistics for the list of measurements, along with changes between measurements. 
-    Accepts a list of measurements and returns a stylized dataframe for display purposes.'''
+    
+def get_statistics(list_measurements): 
+    '''Display summary statistics for the list of measurements, along with changes between measurements. '''
+    
     
     col_names = ['Location', 'Date', 'Max Depth (ft)', 'Avg Depth (ft)', 
                  'Total Discharge (CFS)', 'Average Velocity (ft/s)']
@@ -111,10 +112,21 @@ def display_statistics(list_measurements):
     diff = (statistics - statistics.shift(1)).groupby('Location').apply(lambda group: group.iloc[1:, :])
     diff.index = diff.index.droplevel(0)
     
-    #Add a dummy variable so that new diff dataframe can be merged with the original and order preserved. 
-    diff['delta'] = True
-    statistics['delta']=False
-    joined = pd.concat([statistics, diff],axis = 0).sort_values(['Location', 'Date', 'delta'], ascending=[False, True, False]).reset_index()
+    #Add a dummy variable so that new diff dataframe can be merged with the original and order preserved.
+    #Integers are used for compatibilty with plotly style backend. 
+    diff['delta'] = 1
+    statistics['delta'] = 0
+    joined = pd.concat([statistics, diff],axis = 0).round(2).sort_values(['Location', 'Date', 'delta'], ascending=[False, True, False]).reset_index()
+    
+    return joined
+    
+    
+    
+
+def display_statistics(list_measurements):
+    '''Accepts a list of measurements and returns a stylized dataframe for display purposes.'''
+    joined = get_statistics(list_measurements)
+    
 
     #Color changes to the depth/flow green if increased, or red if decreased, but only along the rows that show change. 
     def color_red_green(val): 

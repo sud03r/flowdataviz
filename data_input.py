@@ -61,7 +61,7 @@ class Measurement():
         self.name = name
         
         
-        self.flow_data = flow_data.dropna()
+        self.flow_data = flow_data.dropna().copy()
         self.discharge = self.flow_data[self.kDischargeColName].sum()
         self.area = self.flow_data[self.kAreaColName].sum()
         self.average_velocity = self.discharge / self.area
@@ -80,6 +80,9 @@ class Measurement():
         if pd.isnull(self.site_code): 
             self.site_code = self.name.split(' ')[0]
         self.crew = self.crew.split(', ')
+        
+        self.flow_data['location'] = self.site_code
+        self.flow_data['date'] = self.date.strftime('%Y/%m/%d')
         
         
 def import_slo_water(start=datetime.datetime(2024, 9, 1, 0, 0), end=datetime.datetime.now()): 
