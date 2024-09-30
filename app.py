@@ -3,6 +3,7 @@ from dash import Dash, html, dcc, callback, Output, Input, dash_table
 import data_input, visualizer
 import plotly.express as px
 import pandas as pd
+import dash_bootstrap_components as dbc
 
 #Collect measurement objects and establish list of possible input parameters. 
 measurements, list_dates, list_sites = data_input.get_measurements()
@@ -10,16 +11,27 @@ list_dates = [date.strftime('%Y/%m/%d') for date in list_dates]
 variables = ['Depth', 'Velocity', 'Discharge']
 
 
-app = Dash()
+app = Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 #Create a dashboard with 3 inputs. Site can only accept 1 value, but multiple allowed for date and plotted variable
 app.layout = [
-    html.H1(children='Waterflow measurements', style = {'textAlign': 'center'}), 
-    html.Div(
-        [dcc.Dropdown(list_sites, None, id='dropdown-site', placeholder = 'Site'),
-         dcc.Dropdown(list_dates, [], id='dropdown-date', placeholder = 'Date', multi=True),
-         dcc.Dropdown(variables, [], id='dropdown-var', placeholder = 'Variable', multi=True)]),
-    html.Div(id='plots-container')
+    dbc.Container(
+    children = html.Div(
+            [
+                dbc.Row(html.H4("Watershed flow data visualization", className="text-center m-2")),
+                dbc.Row(
+                    [
+                        dbc.Col(dcc.Dropdown(list_sites, None, id='dropdown-site', placeholder = 'Site')),
+                        dbc.Col(dcc.Dropdown(list_dates, [], id='dropdown-date', placeholder = 'Date', multi=True)),
+                        dbc.Col(dcc.Dropdown(variables, [], id='dropdown-var', placeholder = 'Variable', multi=True))
+                    ],
+                    className="m-2"
+                ),
+                dbc.Row(html.Div(id='plots-container'))
+            ],
+            className="bg-light border border-light rounded p-3"
+        ),
+    )
 ]
 
 @callback(
@@ -51,9 +63,18 @@ def update_graphs(site, dates, variables):
         fig = px.line(df, x=var_dict['Distance'], y=var_dict[variable], color='date')
         fig.update_layout(
             xaxis_title = 'DISTANCE ALONG SECTION, IN FEET', 
-            yaxis_title = ylabels[variable], 
-            title = variable)
-        figures.append(dcc.Graph(figure=fig))
+            yaxis_title = ylabels[variable],
+            paper_bgcolor="rgba(0, 0, 0, 0)") # transparent background
+        plot = dbc.Card(
+            dbc.CardBody(
+                [
+                    html.H4(variable, className="card-title"),
+                    dcc.Graph(figure=fig),
+                ]
+            ),
+            className="bg-light border-light"
+        )
+        figures.append(plot)
         
     #Return the list of summary statistics for each figure.
     df = visualizer.get_statistics(flow_measure)
@@ -77,9 +98,17 @@ def update_graphs(site, dates, variables):
                                  [{"name": i, "id": i} for i in df.columns],
                                  style_data_conditional = style_cond, 
                                  style_header_conditional = style_head)
-    
-    figures.append(table)
-    return figures
+    flow_stats = dbc.Card(
+            dbc.CardBody(
+                [
+                    html.H4("Flow Statistics", className="card-title"),
+                    html.Div(children=table, className="p-2"),
+                ]
+            ),
+            className="bg-info border-0 m-3"
+        )
+    # show table first
+    return [flow_stats] + figures
 
 
 

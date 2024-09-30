@@ -7,7 +7,7 @@ Check out this document for more details: [Google doc](https://docs.google.com/d
 How to use:
 
 * Run in an interactive jupyter notebook.
-* May require installing dependencies as: `pip install openpyxl ipywidgets mpl_axes_aligner`
+* May require installing dependencies as: `pip install openpyxl ipywidgets mpl_axes_aligner dash pandas dash-bootstrap-components`
 
 The dashboard app, app.py requires dash, plotly, and pandas. 
 It can be run with by command line `python3 app.py`, and will open locally at port 127.0.0.1:8050 .
