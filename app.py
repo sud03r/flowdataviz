@@ -10,22 +10,23 @@ measurements, list_dates, list_sites = data_input.get_measurements()
 list_dates = [date.strftime('%Y/%m/%d') for date in list_dates]
 variables = ['Depth', 'Velocity', 'Discharge']
 
-
-app = Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
+dbc_css = "https://cdn.jsdelivr.net/gh/AnnMarieW/dash-bootstrap-templates/dbc.min.css"
+app = Dash(external_stylesheets=[dbc.themes.BOOTSTRAP, dbc_css])
 
 #Create a dashboard with 3 inputs. Site can only accept 1 value, but multiple allowed for date and plotted variable
 app.layout = [
     dbc.Container(
     children = html.Div(
             [
-                dbc.Row(html.H4("Watershed flow data visualization", className="text-center m-2")),
+                dbc.Row(html.H2("Watershed Flow Data Visualization", className="text-center m-4 text-muted")),
+                dbc.Row(html.Hr()),
                 dbc.Row(
                     [
                         dbc.Col(dcc.Dropdown(list_sites, None, id='dropdown-site', placeholder = 'Site')),
                         dbc.Col(dcc.Dropdown(list_dates, [], id='dropdown-date', placeholder = 'Date', multi=True)),
                         dbc.Col(dcc.Dropdown(variables, [], id='dropdown-var', placeholder = 'Variable', multi=True))
                     ],
-                    className="m-2"
+                    className="m-2 mt-4"
                 ),
                 dbc.Row(html.Div(id='plots-container'))
             ],
@@ -68,7 +69,7 @@ def update_graphs(site, dates, variables):
         plot = dbc.Card(
             dbc.CardBody(
                 [
-                    html.H4(variable, className="card-title"),
+                    html.H4(variable, className="card-title text-muted"),
                     dcc.Graph(figure=fig),
                 ]
             ),
@@ -96,13 +97,15 @@ def update_graphs(site, dates, variables):
 
     table = dash_table.DataTable(df.to_dict('records'), 
                                  [{"name": i, "id": i} for i in df.columns],
+                                 style_cell={'textAlign': 'center'},
+                                 style_header={'fontWeight': 'bold',  'backgroundColor': 'lightcyan'},
                                  style_data_conditional = style_cond, 
                                  style_header_conditional = style_head)
     flow_stats = dbc.Card(
             dbc.CardBody(
                 [
-                    html.H5("Flow Statistics", className="card-title"),
-                    html.Div(children=table, className="p-2"),
+                    html.H5("Flow Statistics", className="card-title text-muted"),
+                    html.Div(children=table, className="p-2 dbc dbc-row-selectable"),
                 ]
             ),
             className="border-0 m-4 rounded-2"
