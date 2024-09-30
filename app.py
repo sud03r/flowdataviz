@@ -101,11 +101,11 @@ def update_graphs(site, dates, variables):
     flow_stats = dbc.Card(
             dbc.CardBody(
                 [
-                    html.H4("Flow Statistics", className="card-title"),
+                    html.H5("Flow Statistics", className="card-title"),
                     html.Div(children=table, className="p-2"),
                 ]
             ),
-            className="bg-info border-0 m-3"
+            className="border-0 m-4 rounded-2"
         )
     # show table first
     return [flow_stats] + figures
