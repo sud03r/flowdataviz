@@ -13,6 +13,7 @@ variables = ['Depth', 'Velocity', 'Discharge']
 dbc_css = "https://cdn.jsdelivr.net/gh/AnnMarieW/dash-bootstrap-templates/dbc.min.css"
 app = Dash(external_stylesheets=[dbc.themes.BOOTSTRAP, dbc_css])
 
+
 #Create a dashboard with 3 inputs. Site can only accept 1 value, but multiple allowed for date and plotted variable
 app.layout = [
     dbc.Container(
