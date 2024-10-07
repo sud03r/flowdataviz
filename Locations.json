@@ -1,0 +1,158 @@
+{
+    "22nd Street Bridge": {
+        "site_id": "9",
+        "site": "9422c185-4650-4a19-9748-fd6042161110",
+        "device_id": "1",
+        "device": "d31896e3-200a-45f8-a7f0-624d09a7eee0"
+    },
+    "Andrews Street Bridge": {
+        "site_id": "30",
+        "site": "e8468399-aa97-4e62-a6ff-df2327bf5171",
+        "device_id": "1",
+        "device": "18c74b7a-6935-4a73-82ea-44f33b0b21bc"
+    },
+    "Arroyo Grande Creek": {
+        "site_id": "8",
+        "site": "e5dbefca-15de-49b6-a892-6160b38b84ad",
+        "device_id": "1",
+        "device": "b7fa1fcc-4fe1-4a67-982f-00f5391bd903"
+    },
+    "Arroyo Grande Lagoon": {
+        "site_id": "11",
+        "site": "e34cef5c-5976-432a-9cd9-ac6cf5d9cf7a",
+        "device_id": "1",
+        "device": "56a57c26-9b2b-415a-a5af-d9e9bb5d7f53"
+    },
+    "Canet": {
+        "site_id": "41",
+        "site": "093f8e0b-dfde-4a45-b291-174ce07ead12",
+        "device_id": "3",
+        "device": "8e787d49-7f71-41b1-ae12-2559889f3431"
+    },
+    "Cecchetti": {
+        "site_id": "17",
+        "site": "8b1096d8-a98e-4fd0-b15b-7b6c6eeff2ab",
+        "device_id": "1",
+        "device": "5e89804e-add7-4fa9-9043-99d1af053724"
+    },
+    "E. Fork at Jespersen Rd.": {
+        "site_id": "18",
+        "site": "ebe04ace-5db0-4d40-842d-c6d7ac95c95e",
+        "device_id": "1",
+        "device": "fa6d3798-fc0d-48a8-9af4-4aa969f1f907"
+    },
+    "Elks Lane": {
+        "site_id": "20",
+        "site": "b56dfbde-2f80-450b-b7d9-b46389fa5754",
+        "device_id": "1",
+        "device": "2418925d-b1ca-4f43-9b01-e3091f2430ae"
+    },
+    "Geneseo Bridge": {
+        "site_id": "215",
+        "site": "7503070a-e5f4-4edb-bd75-501eb75c8199",
+        "device_id": "3",
+        "device": "836f21de-fca1-46fd-a4e8-bc333e4c2f5b"
+    },
+    "Los Berros - S": {
+        "site_id": "4",
+        "site": "f9453491-3123-4aff-b93c-84255d785eb3",
+        "device_id": "1",
+        "device": "b5d0bf50-427e-4515-baed-cf28dcf8712a"
+    },
+    "Los Berros Creek below HWY 101": {
+        "site_id": "6",
+        "site": "3be39dab-98ef-488c-b707-f32809d5bdce",
+        "device_id": "1",
+        "device": "d0aeefd3-115c-42d9-8be2-d3273439b724"
+    },
+    "Los Osos": {
+        "site_id": "39",
+        "site": "84b42272-0c34-40cd-847e-d57085e7b8f9",
+        "device_id": "1",
+        "device": "f3763fbf-9a48-4852-81d8-914a12d62f8f"
+    },
+    "Madonna Road": {
+        "site_id": "21",
+        "site": "98b21c7e-40ff-483b-9560-f9dc8d1a0739",
+        "device_id": "1",
+        "device": "4db6b907-c707-4414-946b-e64f5126f389"
+    },
+    "Marsh Street Bridge": {
+        "site_id": "207",
+        "site": "11bda74f-f119-49fa-bdc2-91a665f73e09",
+        "device_id": "2",
+        "device": "4c099ea5-ffaa-4f61-aefc-c413fe50c0df"
+    },
+    "Meadow Creek": {
+        "site_id": "84",
+        "site": "1471f1d6-d42d-493c-a6b9-f78f013c5d7f",
+        "device_id": "4",
+        "device": "96bbb0b2-8810-43bd-9135-592176151071"
+    },
+    "Morro Creek": {
+        "site_id": "43",
+        "site": "2eac7f2d-f708-4b55-be60-32ce4cdc0eb1",
+        "device_id": "1",
+        "device": "5a9e56e2-1d29-45f3-a175-6912bcb5018c"
+    },
+    "Pier Avenue": {
+        "site_id": "12",
+        "site": "a8d8843b-d985-4c61-bfbc-e92e2cb36f20",
+        "device_id": "1",
+        "device": "533dce72-666d-492f-bf13-6582fe2c21a3"
+    },
+    "River Grove Bridge": {
+        "site_id": "214",
+        "site": "553fa51d-c289-448b-92d4-f9f9d0714146",
+        "device_id": "4",
+        "device": "00d51cd6-1f99-4156-9225-8eef542e9406"
+    },
+    "River Road Bridge": {
+        "site_id": "213",
+        "site": "4cabc1de-6895-470f-86db-f1fe217ebf2d",
+        "device_id": "4",
+        "device": "8ec4275a-7116-4f6d-a5d8-22963902ec5e"
+    },
+    "Rodriguez": {
+        "site_id": "15",
+        "site": "477db080-b2ff-40d1-850b-4687db26b833",
+        "device_id": "1",
+        "device": "b99bc258-3a10-42f8-b055-a15ab81d2a75"
+    },
+    "Salinas River": {
+        "site_id": "23",
+        "site": "24589700-a1b7-4cde-b933-7f4010689bf5",
+        "device_id": "1",
+        "device": "ba161b26-345d-4930-8316-613c78a7b10a"
+    },
+    "San Luisito": {
+        "site_id": "42",
+        "site": "ab0e9d64-aad3-4c20-98c4-24416fb9f097",
+        "device_id": "1",
+        "device": "9f390c0f-0d4b-4b3f-8d7b-efe696ceeeec"
+    },
+    "San Simeon - S": {
+        "site_id": "46",
+        "site": "5428023f-796a-4aac-bd2d-bc323901dc3b",
+        "device_id": "1",
+        "device": "f47795e8-eb40-49fb-8b2f-0874169def8f"
+    },
+    "Santa Rosa at Main": {
+        "site_id": "45",
+        "site": "5b5ca36e-8492-4705-9e29-b203ccad9d30",
+        "device_id": "1",
+        "device": "deb45a12-9b82-406b-a32d-d1730aa0a8fd"
+    },
+    "Stenner Creek at Nipomo": {
+        "site_id": "29",
+        "site": "5952eafd-17d9-4cb6-a6dd-c949a99525f0",
+        "device_id": "1",
+        "device": "1c308219-4b72-4307-a5c0-76ed02cdba41"
+    },
+    "Valley Road": {
+        "site_id": "7",
+        "site": "23cb8a58-fd3b-4884-9632-e4b5c815a60d",
+        "device_id": "1",
+        "device": "6f68297e-7573-4550-a3ca-f664dada58a0"
+    }
+}

@@ -7,7 +7,9 @@ Check out this document for more details: [Google doc](https://docs.google.com/d
 How to use:
 
 * Run in an interactive jupyter notebook.
-* May require installing dependencies as: `pip install openpyxl ipywidgets mpl_axes_aligner dash pandas dash-bootstrap-components`
+* Requires the following modules: dash, pandas, dash_bootstrap_components, json, reqests, datettime, pydrive, oauth2client, bs4,
+numpy, and mpl_axes_aligner
+* May require installing dependencies as: `pip install dash` , etc.
 
 The dashboard app, app.py requires dash, plotly, and pandas. 
 It can be run with by command line `python3 app.py`, and will open locally at port 127.0.0.1:8050 .

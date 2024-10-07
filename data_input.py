@@ -4,6 +4,9 @@ from io import BytesIO, StringIO
 import datetime
 from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
+from oauth2client.service_account import ServiceAccountCredentials
+import os
+from bs4 import BeautifulSoup
 
 
 def import_googlesheet(url = None): 
@@ -24,19 +27,13 @@ def import_googlesheet(url = None):
 def auth_google():
     '''
     Authenticates with googledrive to be able to read all uploaded worksheets.
-    Uses the associated gmail account, with and authenticates using the browser or a saved credentials file. 
-    See the python quickstart here: https://developers.google.com/drive/api/quickstart/python
-    The associated client_secrets.json and credentials.json should both live in this folder.
+    Uses a service account so that access will persist over a longer period of time (I believe indefinitely). 
+    The service account is managed by flowdataviz@gmail.com
     '''
+    SERVICE_ACCOUNT_FILE = 'creek-data-viz-9355c63a465b.json'
+    SCOPES = ['https://www.googleapis.com/auth/drive']
     gauth = GoogleAuth()
-    gauth.LoadCredentialsFile("credentials.json")
-    if gauth.credentials is None: 
-        gauth.LocalWebserverAuth()
-        gauth.SaveCredentialsFile("credentials.json")
-    elif gauth.access_token_expired: 
-        gauth.Refresh()
-    else: 
-        gauth.Authorize()
+    gauth.credentials = ServiceAccountCredentials.from_json_keyfile_name(SERVICE_ACCOUNT_FILE, SCOPES)
     drive = GoogleDrive(gauth)
     
     return drive
@@ -135,19 +132,17 @@ class Measurement():
         
         
         
-def import_slo_water(start=datetime.datetime(2024, 9, 1, 0, 0), end=datetime.datetime.now()): 
+def import_slo_water(location, start=datetime.datetime(2024, 10, 1, 0, 0), end=datetime.datetime.now()): 
     '''Copied the URL from the csv-download option, and parsed it for legibility. 
     Currently accepts starting and ending timestamps as arguments, returns csv over that period.
-    Hardcoded for one specific url, but could accept arguments for multiple devices (if we identify need).
-    This function is unused at the moment. 
     '''
     
     url_base = 'https://wr.slocountywater.org/export/file/'
 
-    args = {'site_id': '29', 
-            'site' : '5952eafd-17d9-4cb6-a6dd-c949a99525f0', 
-            'device_id': '1',
-            'device': '1c308219-4b72-4307-a5c0-76ed02cdba41',
+    args = {'site_id': '', 
+            'site' : '', 
+            'device_id': '',
+            'device': '',
             'mode' : '',
             'hours' : '',
             'data_start' : start.strftime('%Y-%m-%d %H:%M:%S'),
@@ -156,14 +151,39 @@ def import_slo_water(start=datetime.datetime(2024, 9, 1, 0, 0), end=datetime.dat
             'format_datetime' : '%25Y-%25m-%25d+%25H%3A%25i%3A%25S',
             'mime' : 'txt',
             'delimiter' : 'comma'}
+    args.update(location)
     url = url_base + '?' + '&'.join(['='.join([key, value]) for key, value in args.items()])
 
     response = r.get(url)
+    
+    if not response.ok: 
+        return pd.DataFrame()
 
-
-    csv_data = io.StringIO(response.text)
+    csv_data = StringIO(response.text)
     df = pd.read_csv(csv_data)
     return df
+
+def get_thresholds(location): 
+    '''
+    Runs an http request for the stage page for the location. 
+    It searches for span tags that include a measurement in ft. 
+    The channel bottom tag background color ff9900.
+    This is not a robust method of finding the thresholds, but works at this moment. 
+    '''
+    url_base = 'https://wr.slocountywater.org/sensor/'
+    url = url_base + '?' + '&'.join(['='.join([key, value]) for key, value in location.items()])
+    response = r.get(url)
+    if not response.ok: 
+        return 0
+    soup = BeautifulSoup(response.content, 'html.parser')
+    
+    #The thresholds are the only text in span tags. The smallest value should refer to the 
+    #lowest point of the feature
+    thresholds = soup.find_all('span', string=lambda x: x and 'ft' in x)
+    threshold = min([float(thresh.text.split()[0]) for thresh in thresholds])
+    return threshold
+    
+    
 
 
 def get_measurements(): 
