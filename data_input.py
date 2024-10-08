@@ -6,7 +6,6 @@ from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
 from oauth2client.service_account import ServiceAccountCredentials
 import os
-from bs4 import BeautifulSoup
 
 
 def import_googlesheet(url = None): 
@@ -163,27 +162,6 @@ def import_slo_water(location, start=datetime.datetime(2024, 10, 1, 0, 0), end=d
     df = pd.read_csv(csv_data)
     return df
 
-def get_thresholds(location): 
-    '''
-    Runs an http request for the stage page for the location. 
-    It searches for span tags that include a measurement in ft. 
-    The channel bottom tag background color ff9900.
-    This is not a robust method of finding the thresholds, but works at this moment. 
-    '''
-    url_base = 'https://wr.slocountywater.org/sensor/'
-    url = url_base + '?' + '&'.join(['='.join([key, value]) for key, value in location.items()])
-    response = r.get(url)
-    if not response.ok: 
-        return 0
-    soup = BeautifulSoup(response.content, 'html.parser')
-    
-    #The thresholds are the only text in span tags. The smallest value should refer to the 
-    #lowest point of the feature
-    thresholds = soup.find_all('span', string=lambda x: x and 'ft' in x)
-    threshold = min([float(thresh.text.split()[0]) for thresh in thresholds])
-    return threshold
-    
-    
 
 
 def get_measurements(): 
