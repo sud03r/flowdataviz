@@ -26,16 +26,24 @@ app = Dash(external_stylesheets=[dbc.themes.BOOTSTRAP, dbc_css])
 app.layout = html.Div([
     dcc.Tabs(id="tabs-example", value='tab-1', children=[
         dcc.Tab(label='Manually measured', value='tab-1', children=[
-            html.Div([
-                html.H1(children='Waterflow measurements', style = {'textAlign': 'center'}), 
-                html.Div(
-                    [dcc.Dropdown(list_sites, None, id='dropdown-site', placeholder = 'Site'),
-                     dcc.Dropdown(list_dates, [], id='dropdown-date', placeholder = 'Date', multi=True),
-                     dcc.Dropdown(variables, [], id='dropdown-var', placeholder = 'Variable', multi=True)]),
-                html.Div(id='plots-container')
-            ])
+            html.Div(
+            [
+                dbc.Row(html.H2("Watershed flow data visualization", className="text-center m-2 text-muted")),
+                dbc.Row(html.Hr()),
+                dbc.Row(
+                    [
+                        dbc.Col(dcc.Dropdown(list_sites, None, id='dropdown-site', placeholder = 'Site')),
+                        dbc.Col(dcc.Dropdown(list_dates, [], id='dropdown-date', placeholder = 'Date', multi=True)),
+                        dbc.Col(dcc.Dropdown(variables, [], id='dropdown-var', placeholder = 'Variable', multi=True))
+                    ],
+                    className="m-2 mt-4"
+                ),
+                dbc.Row(html.Div(id='plots-container'))
+            ],
+            className="bg-light border border-light rounded p-3"
+            ),
         ]),
-        dcc.Tab(label='SLO County Reports', value='tab-2', children=[
+        dcc.Tab(label='SLO County Reports', value='tab-2',  className="text-center m-2 text-muted", children=[
             html.Div([
                 html.H1(children='SLO County Measurements', style = {'textAlign': 'center'}), 
                 html.Div(
@@ -132,10 +140,17 @@ def manual_measurement_graphs(site, dates, variables):
         fig = px.line(df, x=var_dict['Distance'], y=var_dict[variable], color='date')
         fig.update_layout(
             xaxis_title = 'DISTANCE ALONG SECTION, IN FEET', 
-            yaxis_title = ylabels[variable], 
-            title = variable
-        )
-        figures.append(dcc.Graph(figure=fig))
+            yaxis_title = ylabels[variable],
+            paper_bgcolor="rgba(0, 0, 0, 0)") # transparent background
+        plot = dbc.Card(
+            dbc.CardBody(
+                [
+                    html.H4(variable, className="card-title  text-muted"),
+                    dcc.Graph(figure=fig),
+                ]
+            ),
+            className="bg-light border-light")
+        figures.append(plot)
         
     #Return the list of summary statistics for each figure.
     df = visualizer.get_statistics(flow_measure)
@@ -157,11 +172,21 @@ def manual_measurement_graphs(site, dates, variables):
 
     table = dash_table.DataTable(df.to_dict('records'), 
                                  [{"name": i, "id": i} for i in df.columns],
+                                 style_cell={'textAlign': 'center'},
+                                 style_header={'fontWeight': 'bold',  'backgroundColor': 'lightcyan'},
                                  style_data_conditional = style_cond, 
                                  style_header_conditional = style_head)
-    
-    figures.append(table)
-    return figures
+    flow_stats = dbc.Card(
+            dbc.CardBody(
+                [
+                    html.H5("Flow Statistics", className="card-title  text-muted"),
+                    html.Div(children=table, className="p-2"),
+                ]
+            ),
+            className="border-0 m-4 rounded-2 dbc dbc-row-selectable"
+        )
+    # show table first
+    return [flow_stats] + figures
 
 
 
