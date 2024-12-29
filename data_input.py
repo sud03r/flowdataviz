@@ -8,6 +8,9 @@ from oauth2client.service_account import ServiceAccountCredentials
 import os
 
 
+# Need to specify a the secret key file, assumes it is located in ~/auth/
+SERVICE_ACCOUNT_FILE = os.path.expanduser("~") + "/auth/creek-data-viz.json"
+
 def import_googlesheet(url = None): 
     '''As there is only one google sheet, I just hard code the url. 
     otherwise I would have this function iterate over files within a folder. 
@@ -29,7 +32,6 @@ def auth_google():
     Uses a service account so that access will persist over a longer period of time (I believe indefinitely). 
     The service account is managed by flowdataviz@gmail.com
     '''
-    SERVICE_ACCOUNT_FILE = 'creek-data-viz-9355c63a465b.json'
     SCOPES = ['https://www.googleapis.com/auth/drive']
     gauth = GoogleAuth()
     gauth.credentials = ServiceAccountCredentials.from_json_keyfile_name(SERVICE_ACCOUNT_FILE, SCOPES)

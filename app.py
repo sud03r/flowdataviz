@@ -13,13 +13,13 @@ measurements, list_dates, list_sites = data_input.get_measurements()
 list_dates = [date.strftime('%Y/%m/%d') for date in list_dates]
 variables = ['Depth', 'Velocity', 'Discharge']
 
-with open('Locations.json') as file: 
+with open('settings/Locations.json') as file: 
     list_sites_SLO = json.load(file)
-with open('thresholds.json') as file: 
+with open('settings/thresholds.json') as file: 
     thresholds = json.load(file)
 
 dbc_css = "https://cdn.jsdelivr.net/gh/AnnMarieW/dash-bootstrap-templates/dbc.min.css"
-app = Dash(external_stylesheets=[dbc.themes.BOOTSTRAP, dbc_css])
+app = Dash(external_stylesheets=[dbc.themes.BOOTSTRAP, dbc_css], title="Watershed Data Visualization")
 
 #Create a dashboard with 3 inputs. Site can only accept 1 value, but multiple allowed for date and plotted variable
 
